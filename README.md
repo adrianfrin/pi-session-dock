@@ -6,6 +6,10 @@ A local-first project and session picker for **Pi + Codex**, inside the Pi termi
 
 Browse conversations by directory, search their titles, and resume each conversation in its native runtime. No transcript conversion, no cloud service, no telemetry.
 
+![Session Dock demo in Ghostty](docs/images/dock-demo.png)
+
+*Actual `/dock demo` screenshot in Ghostty with the `dock-night` theme, cropped to the picker. All sessions shown are fictional.*
+
 ## Install
 
 Requires **Pi 0.85.1 or newer** and **Node.js 22.13+**. Codex features additionally require the official `codex` CLI and `codex login`.

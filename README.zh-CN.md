@@ -6,6 +6,10 @@
 
 按目录浏览对话、搜索标题，并在各自的原生运行环境中继续会话。不转换对话记录、不依赖云端服务、不收集遥测数据。
 
+![Ghostty 中的 Session Dock 演示界面](docs/images/dock-demo.png)
+
+*在 Ghostty 中使用 `dock-night` 主题运行 `/dock demo` 的真实截图，仅裁剪至选择器区域。图中会话均为虚构数据。*
+
 ## 安装
 
 需要 **Pi 0.85.1 或更新版本**以及 **Node.js 22.13+**。使用 Codex 功能还需要安装官方 `codex` CLI，并通过 `codex login` 登录。
