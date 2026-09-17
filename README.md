@@ -4,7 +4,7 @@ English | [简体中文](README.zh-CN.md)
 
 A local-first project and session picker for **Pi + Codex**, inside the Pi terminal.
 
-Browse conversations by directory, search their titles, and resume each conversation in its native runtime. No transcript conversion, no cloud service, no telemetry.
+Browse conversations by directory, search their titles, and resume natively or fork Codex text history into Pi. No cloud service, no telemetry.
 
 ![Session Dock demo in Ghostty](docs/images/dock-demo.png)
 
@@ -12,7 +12,7 @@ Browse conversations by directory, search their titles, and resume each conversa
 
 ## Install
 
-Requires **Pi 0.85.1 or newer** and **Node.js 22.13+**. Codex features additionally require the official `codex` CLI and `codex login`.
+Requires **Pi 0.85.1 or newer** and **Node.js 22.13+**. Native Codex recovery requires the official `codex` CLI and `codex login`. Continuing Codex history in Pi instead uses Pi's `/login` → ChatGPT Plus/Pro (Codex).
 
 ```sh
 pi install git:github.com/adrianfrin/pi-session-dock
@@ -66,7 +66,18 @@ pi install git:github.com/adrianfrin/pi-session-dock@v0.1.0
 
 List navigation follows Pi's configured selection bindings. Dock-specific shortcuts apply only while its picker is open. Use a terminal at least 38 columns × 22 rows.
 
-## How Codex resume works
+## Continue Codex history in Pi
+
+Opening a Codex session offers two choices:
+
+- **在 Pi 中继续 / Continue in Pi** (first option): creates a separate `[Codex → Pi]` session with user/assistant text and selects Pi's `openai-codex` provider. It retains your current Pi Codex model, or asks you to select an available one. Authentication is resolved by Pi, not copied from Codex App.
+- **在 Codex 中恢复 / Resume in Codex**: recovers the original thread with Codex's own account.
+
+Pi import requires a matching local rollout of at most 32 MiB. Text is shown in the transcript and included in model context; it is not merely a preview. Tools, images, reasoning, system/developer messages, approval state and compaction checkpoints are not migrated. Unsupported content is reported before confirmation. Rollback histories are rejected rather than importing an incorrect branch. An incomplete trailing record is skipped with a warning; stop the source conversation first for a stable snapshot. Very large text histories may require `/compact` before continuing.
+
+Import makes no model request, sends no prompt automatically, and does not change the source or either account's credentials. It follows Pi's normal project-trust flow. Cancelling a switch removes only the untouched newly created fork. Every import creates a new fork; later select that Pi session to continue it. Forks do not synchronize back to Codex.
+
+## How native Codex resume works
 
 The picker reads local metadata, then asks for confirmation before pausing Pi and running:
 
@@ -78,7 +89,7 @@ Arguments are passed directly to the executable, not interpolated into a shell c
 
 **“This conversation is open in another app”** is Codex's own lock protection. Close the conversation in Codex App or the other CLI (fully quit the app if needed), then press **R** in Codex to retry. Stopping generation alone may not release ownership. Do not delete lock files or the conversation.
 
-Session Dock does **not** detect live ownership in advance, transfer a running turn, or turn Codex history into Pi history. Cloud-only threads without a local index are not supported.
+Session Dock does **not** detect live ownership in advance or transfer a running turn. Cloud-only threads without a local index are not supported.
 
 ## Storage and privacy
 
@@ -87,6 +98,7 @@ Session Dock does **not** detect live ownership in advance, transfer a running t
 - If SQLite is unavailable or incompatible, discovery falls back to bounded rollout-header reads and `session_index.jsonl`. Titles may be incomplete; a warning is shown.
 - Codex's internal index schema is not a stable public API. Discovery is limited to 10,000 recent indexed threads/files and may need updates for future Codex versions.
 - Added directories live in `<Pi agent directory>/session-dock.json`. No transcript cache is written.
+- Confirmed Pi imports write a new native Pi transcript containing converted text and source provenance; the Codex source remains read-only.
 - Browsing never modifies either provider's history. Creating a Pi session writes a native header; resuming a Pi session lets Pi manage its normal session lifecycle. Only the official Codex CLI writes Codex history during handoff.
 - Session titles and paths are visible on screen. Use **`/dock demo`** when sharing screenshots.
 

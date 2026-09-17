@@ -127,10 +127,10 @@ export class DockView implements Component, Focusable {
     lines.push(rule());
     const session = this.selectedSession;
     lines.push(row(` ${th.fg("text", compactPath(this.selectedProject?.cwd || this.options.cwd, homedir()))}`));
-    const detail = session ? `${session.provider === "pi" ? "π Pi · switch in place" : "◆ Codex · native CLI · quit to return"}${session.archived ? " · ARCHIVED" : ""}  ${session.id.slice(0, 8)}` : "Empty project · ^N starts Pi · ^O starts Codex";
+    const detail = session ? `${session.provider === "pi" ? "π Pi · switch in place" : "◆ Codex · continue in Pi / resume in Codex"}${session.archived ? " · ARCHIVED" : ""}  ${session.id.slice(0, 8)}` : "Empty project · ^N starts Pi · ^O starts Codex";
     lines.push(row(` ${th.fg(session?.provider === "codex" ? "success" : "accent", detail)}`));
     const warning = this.note || this.options.catalog.warnings[0];
-    lines.push(row(` ${warning ? th.fg("warning", clean(warning)) : th.fg("dim", session?.provider === "codex" ? "Original history preserved. Stop the same thread in Codex App before resuming." : "Search titles, paths or IDs. Browsing never changes your conversations.")}`));
+    lines.push(row(` ${warning ? th.fg("warning", clean(warning)) : th.fg("dim", session?.provider === "codex" ? "Choose Pi account (new text fork) or Codex account (native recovery)." : "Search titles, paths or IDs. Browsing never changes your conversations.")}`));
     lines.push(rule());
     lines.push(row(` ${shortcut("↑↓", "move")}  ${shortcut("Tab", "pane")}  ${shortcut("Enter", this.pane === "projects" ? "sessions" : "resume")}  ${shortcut("Esc", "close")}`));
     lines.push(row(` ${shortcut("^N", "new Pi")}  ${shortcut("^O", "new Codex")}  ${shortcut("^G", "add folder")}  ${shortcut("^R", "refresh")}`));

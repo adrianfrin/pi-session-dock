@@ -5,6 +5,7 @@ import type { Catalog } from "./catalog.ts";
 import { clean } from "./catalog.ts";
 import { addDirectory, assertDirectory, createPiSession, loadCatalog, removeCancelledSession } from "./storage.ts";
 import { launchCodex } from "./launch.ts";
+import { continueCodexInPi } from "./import-codex.ts";
 import { DockView, type DockAction } from "./view.ts";
 import { demoCatalog } from "./demo.ts";
 
@@ -85,7 +86,16 @@ export default function sessionDock(pi: ExtensionAPI) {
           if (action.type === "new-codex") { await launchCodex(ctx, action.cwd); return; }
           if (action.type === "resume") {
             const session = action.session;
-            if (session.provider === "codex") { await launchCodex(ctx, session.cwd, session.id); return; }
+            if (session.provider === "codex") {
+              const choice = await ctx.ui.select("Codex · " + clean(session.title), [
+                "在 Pi 中继续 · Pi OpenAI account · new text fork",
+                "在 Codex 中恢复 · Codex account · original session",
+              ]);
+              if (!choice) continue;
+              if (choice.startsWith("在 Pi")) await continueCodexInPi(ctx, session);
+              else await launchCodex(ctx, session.cwd, session.id);
+              return;
+            }
             if (!session.file) throw new Error("Pi session path is missing.");
             await resumePi(ctx, session.file, session.cwd); return;
           }

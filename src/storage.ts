@@ -69,6 +69,7 @@ export async function createPiSession(cwd: string): Promise<{ file: string; head
   return { file, header };
 }
 export async function removeCancelledSession(created: { file: string; header: string }): Promise<void> {
-  // Remove only our unchanged header, never an existing/now-used conversation.
+  // `header` is the creation snapshot (header-only or imported transcript).
+  // Remove only an unchanged new file, never an existing/now-used conversation.
   try { if (await readFile(created.file, "utf8") === created.header) await unlink(created.file); } catch { /* best effort */ }
 }

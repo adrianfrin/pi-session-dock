@@ -4,7 +4,7 @@
 
 在 Pi 终端中使用的 **Pi + Codex** 项目与会话选择器，以本地数据为中心。
 
-按目录浏览对话、搜索标题，并在各自的原生运行环境中继续会话。不转换对话记录、不依赖云端服务、不收集遥测数据。
+按目录浏览对话、搜索标题，在原生环境中恢复，或将 Codex 文本历史分叉到 Pi 继续。不依赖云端服务、不收集遥测数据。
 
 ![Ghostty 中的 Session Dock 演示界面](docs/images/dock-demo.png)
 
@@ -12,7 +12,7 @@
 
 ## 安装
 
-需要 **Pi 0.85.1 或更新版本**以及 **Node.js 22.13+**。使用 Codex 功能还需要安装官方 `codex` CLI，并通过 `codex login` 登录。
+需要 **Pi 0.85.1 或更新版本**以及 **Node.js 22.13+**。在 Codex 中原生恢复需要官方 `codex` CLI 和 `codex login`。在 Pi 中继续 Codex 历史则使用 Pi `/login` 的 ChatGPT Plus/Pro (Codex) 账户。
 
 ```sh
 pi install git:github.com/adrianfrin/pi-session-dock
@@ -66,7 +66,18 @@ pi install git:github.com/adrianfrin/pi-session-dock@v0.1.0
 
 列表导航遵循 Pi 中配置的选择快捷键。Dock 专用快捷键仅在选择器打开时生效。终端尺寸至少需要 38 列 × 22 行。
 
-## Codex 会话恢复原理
+## 在 Pi 中继续 Codex 历史
+
+选中 Codex 会话后，会提供两个入口：
+
+- **在 Pi 中继续**（首选项）：创建独立的 `[Codex → Pi]` 会话，导入用户与助手文本，使用 Pi 的 `openai-codex` 账户。保留当前 Pi 的 Codex 模型，否则提示选择可用模型。
+- **在 Codex 中恢复**：使用 Codex 自己的账户恢复原会话。
+
+导入要求存在身份和项目匹配、不超过 32 MiB 的本地 rollout 文件。文本既在 Pi 中展示，也进入后续模型上下文。工具、图片、推理、system/developer 消息、审批和压缩检查点不会迁移；确认前会提示兼容性损失。包含回滚的历史暂不支持，避免导入错误分支。末尾未写完的记录会跳过并提示，建议先停止原对话以获取稳定快照。很长的历史可能需要先 `/compact`。
+
+导入本身不调用模型、不自动发送提示词，不修改原历史或任何账户凭据，仍遵循 Pi 项目信任流程。取消切换时只清理尚未被修改的新分叉。每次导入都会新建分叉；后续请选择该 Pi 会话继续，不会同步回 Codex。
+
+## Codex 原生会话恢复原理
 
 选择器读取本地元数据，征求确认后暂停 Pi，并运行：
 
@@ -78,7 +89,7 @@ codex resume <thread-id> --cd <project-directory>
 
 **“This conversation is open in another app”（此会话已在其他应用中打开）**是 Codex 自身的会话锁保护。请在 Codex App 或另一个 CLI 中关闭对应会话，必要时完全退出应用，然后在 Codex 中按 **R** 重试。仅停止生成不一定会释放会话占用。不要删除锁文件或会话。
 
-Session Dock **不会**提前检测实时占用状态、转移正在执行的轮次，或将 Codex 历史转换成 Pi 历史。不支持没有本地索引的纯云端会话。
+Session Dock **不会**提前检测实时占用状态或转移正在执行的轮次。不支持没有本地索引的纯云端会话。
 
 ## 存储与隐私
 
@@ -87,6 +98,7 @@ Session Dock **不会**提前检测实时占用状态、转移正在执行的轮
 - 如果 SQLite 不可用或不兼容，会回退到有读取上限的 rollout 文件头扫描及 `session_index.jsonl`。此时标题可能不完整，界面会显示警告。
 - Codex 内部索引结构不是稳定的公共 API。最多扫描最近的 10,000 个索引会话或文件，未来 Codex 版本可能需要适配更新。
 - 手动添加的目录保存在 `<Pi agent directory>/session-dock.json`，不写入对话记录缓存。
+- 确认导入后会创建新的原生 Pi 会话，保存转换后的文本及来源信息；Codex 源文件始终只读。
 - 浏览列表不会修改任何一方的历史。新建 Pi 会话会写入原生会话头；恢复 Pi 会话时，由 Pi 按正常生命周期管理会话。切换至 Codex 后，只有官方 Codex CLI 会写入 Codex 历史。
 - 会话标题和路径会显示在屏幕上。分享截图时请使用 **`/dock demo`**。
 
