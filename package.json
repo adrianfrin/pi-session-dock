@@ -1,0 +1,57 @@
+{
+  "name": "pi-session-dock",
+  "version": "0.1.0",
+  "description": "A local-first project and session dock for Pi and Codex. Resume each conversation in its native runtime.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "codex",
+    "sessions",
+    "terminal"
+  ],
+  "files": [
+    "src",
+    "themes",
+    "README.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ],
+    "themes": [
+      "./themes"
+    ]
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "0.85.1",
+    "@earendil-works/pi-tui": "0.85.1",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  },
+  "scripts": {
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm test",
+    "demo": "pi -e ./src/index.ts --use-theme dark",
+    "prepublishOnly": "npm run check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianfrin/pi-session-dock.git"
+  },
+  "homepage": "https://github.com/adrianfrin/pi-session-dock#readme",
+  "bugs": {
+    "url": "https://github.com/adrianfrin/pi-session-dock/issues"
+  }
+}

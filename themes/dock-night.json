@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/earendil-works/pi/main/packages/coding-agent/src/modes/interactive/theme/theme-schema.json",
+  "name": "dock-night",
+  "colors": {
+    "accent": "#7dd3fc", "border": "#526581", "borderAccent": "#7dd3fc", "borderMuted": "#37445b",
+    "success": "#82d6af", "error": "#fb929d", "warning": "#e8c589", "muted": "#a2aec2", "dim": "#7b8ba4",
+    "text": "#e0e7f0", "thinkingText": "#9aa9c0", "selectedBg": "#25344b",
+    "scrollbarTrack": "#25344b", "scrollbarThumb": "#7b8ba4", "searchMatchBg": "#354b64", "searchMatchText": "#f0f7ff",
+    "userMessageBg": "#1c2535", "userMessageText": "#e0e7f0",
+    "customMessageBg": "#20283a", "customMessageText": "#e0e7f0", "customMessageLabel": "#c4b5fd",
+    "toolPendingBg": "#171f2d", "toolSuccessBg": "#17212a", "toolErrorBg": "#32212b",
+    "toolTitle": "#c4d4ea", "toolOutput": "#aebcd0",
+    "mdHeading": "#7dd3fc", "mdLink": "#93c5fd", "mdLinkUrl": "#7b8ba4", "mdCode": "#82d6af",
+    "mdCodeBlock": "#e0e7f0", "mdCodeBlockBorder": "#526581", "mdQuote": "#a2aec2", "mdQuoteBorder": "#526581", "mdHr": "#37445b", "mdListBullet": "#7dd3fc",
+    "toolDiffAdded": "#82d6af", "toolDiffRemoved": "#fb929d", "toolDiffContext": "#7b8ba4",
+    "syntaxComment": "#7b8ba4", "syntaxKeyword": "#c4b5fd", "syntaxFunction": "#7dd3fc", "syntaxVariable": "#e0e7f0",
+    "syntaxString": "#82d6af", "syntaxNumber": "#f0bb8a", "syntaxType": "#83ded4", "syntaxOperator": "#93c5fd", "syntaxPunctuation": "#a2aec2",
+    "thinkingOff": "#37445b", "thinkingMinimal": "#526581", "thinkingLow": "#669fc0", "thinkingMedium": "#7dd3fc", "thinkingHigh": "#c4b5fd", "thinkingXhigh": "#e4a2d5", "thinkingMax": "#fb929d", "bashMode": "#82d6af"
+  },
+  "export": { "pageBg": "#0d1017", "cardBg": "#171f2d", "infoBg": "#25344b" }
+}
