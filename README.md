@@ -1,5 +1,7 @@
 # Pi Session Dock
 
+English | [简体中文](README.zh-CN.md)
+
 A local-first project and session picker for **Pi + Codex**, inside the Pi terminal.
 
 Browse conversations by directory, search their titles, and resume each conversation in its native runtime. No transcript conversion, no cloud service, no telemetry.
@@ -95,18 +97,6 @@ pi -e ./src/index.ts --theme ./themes/dock-night.json --use-theme dock-night
 Tests cover catalog filtering, Chinese input, terminal escape sanitization, width/height safety, read-only SQLite discovery, rollout fallback, folder configuration, native Pi headers and Codex argv/terminal restoration using a stub executable. Native conversation ownership is enforced by Codex, not simulated as an extension feature.
 
 Tested locally on macOS with Pi 0.85.1 and Ghostty. Other platforms have not yet been interactively validated. This is an early `0.1.0` release; reports and contributions are welcome.
-
-## 中文说明
-
-在 Pi 中按目录统一浏览 **Pi 与 Codex 的本地会话**。
-
-安装后输入 `/reload` → `/dock`。左侧选目录，右侧选会话；直接输入中文标题或路径即可搜索。`Ctrl+N` 新建 Pi 会话，`Ctrl+O` 新建 Codex 会话。
-
-Pi 会话在 Pi 内切换；Codex 会话交给官方 CLI 恢复，退出 Codex 后回到原 Pi 会话，**不是将 Codex 历史转换成 Pi 历史**。
-
-若提示会话正在另一个 App 打开，请关闭对应会话或退出 Codex App，再按 R 重试。插件不会绕过会话锁、沙箱或审批。
-
-需要展示界面时使用 `/dock demo`，其中只有虚构数据。可在 `/settings` 选择配套深色主题 `dock-night`。
 
 ## License
 
